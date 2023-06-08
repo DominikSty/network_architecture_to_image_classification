@@ -62,7 +62,7 @@ class DrawingApp:
         file_path = "buffor"
         self.image.save(file_path, "JPEG")
 
-        self.model = tf.keras.models.load_model("model.h5")
+        self.model = tf.keras.models.load_model("src/model/model.h5")
         image_a = Image.open(file_path).convert('L')        # Konwersja obrazu do odcieni szarości
         image_a = image_a.resize((28, 28))               # Zmiana rozmiaru obrazu na 28x28 pikseli
         image_a = np.array(image_a) / 255.0              # Normalizacja wartości pikseli do zakresu 0-1

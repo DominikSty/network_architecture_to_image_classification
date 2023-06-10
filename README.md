@@ -20,7 +20,7 @@ The combination of DNN and CNN network architectures in one model allows for eff
 ## NETWORK ARCHITECTURE DESIGN FOR IMAGE CLASSIFICATION
 The project presenting the theme of designing from the basics of network architecture to simple image classification was implemented in the Python programming language due to the large volume of libraries supporting artificial intelligence modeling. A set of handwritten digits (0-9) with a size of 28x28 pixels was adopted as the base. An example of such a set can be found in the tensorflow library package named mnist. The exact path is: ```tensorflow.keras.datasets.mnist```
 
-![1](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/f782929d-13e0-41a5-8a8c-51e4acf1c8b1)
+![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/e8ff2c30-abdf-4b39-930b-20965840433c)
 
 The first step in designing an architecture is to create a model implementation, because of the combined DNN and CNN models, they must be implemented first.
 
@@ -170,29 +170,29 @@ The process of learning the model over 15 epochs, where the average time of one 
 
 ```
 Epoch 1/15
-1688/1688 [==============================] - 21s 12ms/step - loss: 0.9323 - accuracy: 0.5864 - val_loss: 0.7056 - val_accuracy: 0.6628
+1688/1688 [==============================] - 20s 11ms/step - loss: 1.1210 - accuracy: 0.4787 - val_loss: 1.0058 - val_accuracy: 0.5047
 Epoch 2/15
-1688/1688 [==============================] - 19s 11ms/step - loss: 0.6430 - accuracy: 0.6812 - val_loss: 0.6236 - val_accuracy: 0.6757
+1688/1688 [==============================] - 19s 11ms/step - loss: 0.8360 - accuracy: 0.5838 - val_loss: 0.3763 - val_accuracy: 0.8620
 Epoch 3/15
-1688/1688 [==============================] - 19s 11ms/step - loss: 0.5780 - accuracy: 0.6961 - val_loss: 0.5681 - val_accuracy: 0.7370
+1688/1688 [==============================] - 19s 11ms/step - loss: 0.1440 - accuracy: 0.9596 - val_loss: 0.1060 - val_accuracy: 0.9688
 ...
 Epoch 13/15
-1688/1688 [==============================] - 20s 12ms/step - loss: 0.0116 - accuracy: 0.9967 - val_loss: 0.0935 - val_accuracy: 0.9820
+1688/1688 [==============================] - 19s 11ms/step - loss: 0.0109 - accuracy: 0.9966 - val_loss: 0.0814 - val_accuracy: 0.9832
 Epoch 14/15
-1688/1688 [==============================] - 20s 12ms/step - loss: 0.0122 - accuracy: 0.9965 - val_loss: 0.0846 - val_accuracy: 0.9840
+1688/1688 [==============================] - 19s 11ms/step - loss: 0.0105 - accuracy: 0.9969 - val_loss: 0.0853 - val_accuracy: 0.9813
 Epoch 15/15
-1688/1688 [==============================] - 20s 12ms/step - loss: 0.0096 - accuracy: 0.9973 - val_loss: 0.1061 - val_accuracy: 0.9820
+1688/1688 [==============================] - 19s 11ms/step - loss: 0.0108 - accuracy: 0.9969 - val_loss: 0.0884 - val_accuracy: 0.9825
 ```
 
 The visualization of the learning process is contained in two graphs. The first includes the quality of the ‘loss’ function in relation to the number of eras, while the second value of the ‘accuracy’ function of the model. The whole code implementation can be found in the file ‘src/create_model.py’.
 
-![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/aa8ce890-eb1d-4b5b-b288-4183a850f57a)
+![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/ff7af813-2c17-4089-bbb1-929372a641ba)
 
 The end result is a description of the values by testing the model on test data. It returns the qualitative accuracy value of the model.
 
 ```
-313/313 - 1s - loss: 0.0908 - accuracy: 0.9835 - 1s/epoch - 4ms/step
-Model accuracy: 0.9835000038146973
+313/313 - 1s - loss: 0.0878 - accuracy: 0.9833 - 1s/epoch - 4ms/step
+Model accuracy: 0.983299970626831
 ```
 
 ## TESTING MODEL
@@ -231,21 +231,21 @@ os.remove(file_path)
 
 ### EXAMPLE OF RUN "TEST MODEL"
 
-![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/9f9b7453-e833-4fe9-bcc0-0295b54215c1)
+![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/e48a068d-850d-46bf-8f07-2c37351fbc1b)
 
 ```
 1/1 [==============================] - 0s 156ms/step
 Score: 2
 ```
 
-![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/0968cbeb-f567-4925-87a1-f3f619b4b4a4)
+![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/1ea94f64-9be3-4351-b74f-3f588c8d225a)
 
 ```
 1/1 [==============================] - 0s 78ms/step
 Score: 8
 ```
 
-![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/071a06e5-6033-4327-9748-b8610a842bdb)
+![image](https://github.com/DominikSty/network_architecture_to_image_classification/assets/101213292/d278b5f0-8399-441d-a86b-17e13f9762ad)
 
 ```
 1/1 [==============================] - 0s 87ms/step

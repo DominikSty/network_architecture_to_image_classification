@@ -1,13 +1,11 @@
-# Temat projektu: Projektowanie od podstaw architektury sieci do prostej klasyfikacji obrazów
-
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
 
 def create_combined_model():
-    numClass = 10  # Liczba klas do sklasyfikowania
+    numClass = 10  # Number of Classes to Classify
 
-    # Tworzenie modelu CNN
+    # Create model CNN
     cnn_model = tf.keras.models.Sequential([
         tf.keras.layers.Input(shape=(28, 28, 1)),
         tf.keras.layers.Conv2D(20, (5, 5)),
@@ -17,7 +15,7 @@ def create_combined_model():
         tf.keras.layers.Dense(numClass, activation='softmax')
     ])
 
-    # Tworzenie modelu DNN
+    # Create model DNN
     dnn_model = tf.keras.models.Sequential([
         tf.keras.layers.Reshape((numClass,), input_shape=(numClass,)),
         tf.keras.layers.Dense(256, activation='relu'),
@@ -26,14 +24,14 @@ def create_combined_model():
         tf.keras.layers.Dense(numClass, activation='softmax')
     ])
 
-    # Tworzenie połączonego modelu
+    # Creating a Connected Model
     combined_model = tf.keras.models.Sequential([
         tf.keras.layers.Input(shape=(28, 28, 1)),
         cnn_model,
         dnn_model
     ])
 
-    # Kompilacja modelu
+    # Model Compilation
     combined_model.compile(optimizer='adam',
                            loss='sparse_categorical_crossentropy',
                            metrics=['accuracy'])
@@ -41,13 +39,13 @@ def create_combined_model():
     return combined_model
 
 
-# Tworzenie instancji modelu
+# Creating a Model Instance
 model = create_combined_model()
 
-# Wczytanie danych treningowych i testowych
+# Loading training and test data
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 
-# Podział danych treningowych na zbiór treningowy i walidacyjny
+# Division of training data into training and validation set
 val_split = 0.1
 val_samples = int(len(x_train) * val_split)
 x_val = x_train[:val_samples]
@@ -55,46 +53,46 @@ y_val = y_train[:val_samples]
 x_train = x_train[val_samples:]
 y_train = y_train[val_samples:]
 
-# Przygotowanie danych treningowych
-x_train = x_train.reshape(-1, 28, 28)  # Usunięcie wymiaru dla kanału
-x_train = x_train / 255.0  # Normalizacja wartości pikseli do zakresu 0-1
+# Preparation of training data
+x_train = x_train.reshape(-1, 28, 28)  # Removing dimension for channel
+x_train = x_train / 255.0  # Normalize pixel values to 0-1 range
 y_train = y_train.astype(int)
 
-# Przygotowanie danych walidacyjnych
-x_val = x_val.reshape(-1, 28, 28)  # Usunięcie wymiaru dla kanału
-x_val = x_val / 255.0  # Normalizacja wartości pikseli do zakresu 0-1
+# Preparation of validation data
+x_val = x_val.reshape(-1, 28, 28)  # Removing dimension for channel
+x_val = x_val / 255.0  # Normalize pixel values to 0-1 range
 y_val = y_val.astype(int)
 
-# Trenowanie modelu z danymi walidacyjnymi
+# Model training with validation data
 history = model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=15)
 
-# Wykresy procesu uczenia się
+# Learning Process Charts
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 2, 1)
-plt.plot(history.history['loss'], label='Strata treningowa')
-plt.plot(history.history['val_loss'], label='Strata walidacyjna')
-plt.xlabel('Epoki')
-plt.ylabel('Strata')
+plt.plot(history.history['loss'], label='Training loss')
+plt.plot(history.history['val_loss'], label='Validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
 plt.legend()
 
 plt.subplot(1, 2, 2)
-plt.plot(history.history['accuracy'], label='Dokładność treningowa')
-plt.plot(history.history['val_accuracy'], label='Dokładność walidacyjna')
-plt.xlabel('Epoki')
-plt.ylabel('Dokładność')
+plt.plot(history.history['accuracy'], label='Training accuracy')
+plt.plot(history.history['val_accuracy'], label='Validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
 plt.legend()
 
 plt.tight_layout()
 plt.show()
 
-# Przygotowanie danych testowych
-x_test = x_test.reshape(-1, 28, 28)  # Usunięcie wymiaru dla kanału
-x_test = x_test / 255.0  # Normalizacja wartości pikseli do zakresu 0-1
+# Preparation of test data
+x_test = x_test.reshape(-1, 28, 28)  # Removing dimension for channel
+x_test = x_test / 255.0  # Normalize pixel values to 0-1 range
 y_test = y_test.astype(int)
 
-# Ocena dokładności modelu na danych testowych
+# Assessment of model accuracy on test data
 test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
-print('Dokładność modelu:', test_acc)
+print('Model accuracy:', test_acc)
 
-# Zapis modelu do pliku
+# Writing the model to a file
 model.save('src/model/model.h5')

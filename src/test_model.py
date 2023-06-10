@@ -4,18 +4,18 @@ import tensorflow as tf
 import numpy as np
 import os
 
-# Rozmiar pojedynczego piksela
+# Single pixel size
 PIXEL_SIZE = 10
-# Rozmiar planszy (w pikselach)
+# Board size (pixels)
 BOARD_SIZE = 28
 
 class DrawingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Test modelu")
+        self.root.title("Model Test")
         window_width = 600
         window_height = 400
-        # Ustaw szerokość i wysokość okna
+        # Set the width and height of the window
         self.root.geometry(f"{window_width}x{window_height}")
 
         self.canvas = tk.Canvas(self.root, 
@@ -26,29 +26,29 @@ class DrawingApp:
         self.canvas.place(x=20, y=100)
         self.canvas.bind('<B1-Motion>', self.draw_pixel)
 
-        self.button_save = tk.Button(self.root, text='Sprawdź', command=self.save_image)
+        self.button_save = tk.Button(self.root, text='Check', command=self.save_image)
         self.button_save.place(x=340, y=120)
 
-        self.clear_button = tk.Button(self.root, text="Wyczyść", command=self.clear_canvas)
+        self.clear_button = tk.Button(self.root, text="Clear", command=self.clear_canvas)
         self.clear_button.place(x=340, y=160)
 
         self.result_label = tk.Label(self.root, text="", fg="black", font=("Arial", 12))
         self.result_label.place(x=340, y=260)
 
         self.info_label1 = tk.Label(self.root, 
-                                    text="Program przeznaczony do testowania modelu sieci do rozpoznawania obrazów", 
+                                    text="Program designed to test network model for image recognition numbers,", 
                                     fg="black", font=("Arial", 11))
         self.info_label1.place(x=10, y=10)
         self.info_label2 = tk.Label(self.root, 
-                                    text="liczb, czarno-biały obraz w rozdzielczości 28x28 pikseli poddawany jest predykcji", 
+                                    text="a black and white image with a resolution of 28x28 pixels is subject to prediction", 
                                     fg="black", font=("Arial", 11))
         self.info_label2.place(x=10, y=30)
         self.info_label3 = tk.Label(self.root, 
-                                    text="na wyuczonym modelu i zwraca przewidywaną wartość. Poniżej znaduje się płutno, ", 
+                                    text="on the learned model and returns the predicted value. Below is a canvas,", 
                                     fg="black", font=("Arial", 11))
         self.info_label3.place(x=10, y=50)
         self.info_label4 = tk.Label(self.root, 
-                                    text="na którym PPM można narysować własną liczbę do sprawdzenia.", 
+                                    text="on which PPM can draw its own number to check.", 
                                     fg="black", font=("Arial", 11))
         self.info_label4.place(x=10, y=70)
 
@@ -72,16 +72,16 @@ class DrawingApp:
     def save_image(self):
         file_path = "buffor"
         self.image.save(file_path, "JPEG")
-        # Test modelu
+        # Model test
         self.model = tf.keras.models.load_model("src/model/model.h5")
-        image_a = Image.open(file_path).convert('L')  # Konwersja obrazu do odcieni szarości
-        image_a = image_a.resize((28, 28))            # Zmiana rozmiaru obrazu na 28x28 pikseli
-        image_a = np.array(image_a) / 255.0           # Normalizacja wartości pikseli do zakresu 0-1
-        image_a = np.expand_dims(image_a, axis=0)     # Dodanie dodatkowego wymiaru dla wsadu (batch)
+        image_a = Image.open(file_path).convert('L')  # Convert image to grayscale
+        image_a = image_a.resize((28, 28))            # Resize image to 28x28 pixels
+        image_a = np.array(image_a) / 255.0           # Normalize pixel values to 0-1 range
+        image_a = np.expand_dims(image_a, axis=0)     # Adding an extra dimension for the batch
         predictions = self.model.predict(image_a)
         predicted_class = np.argmax(predictions)
-        print("Wynik:", predicted_class)
-        self.result_label.config(text="Przewidywana liczba: " + str(predicted_class))
+        print("Score:", predicted_class)
+        self.result_label.config(text="Anticipated number: " + str(predicted_class))
         os.remove(file_path)
 
 

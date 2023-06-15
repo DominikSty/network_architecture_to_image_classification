@@ -43,7 +43,6 @@ def create_combined_model():
 model = create_combined_model()
 
 # Wyświetlanie macierzy wag przed treningiem
-
 for layer in model.layers:
     if len(layer.get_weights()) > 0:
         weights = layer.get_weights()[0]
@@ -54,8 +53,8 @@ for layer in model.layers:
 plt.plot(weights)
 plt.xlabel('X')
 plt.ylabel('Y')
+plt.title('Ogólny pogląd wag przed funkcją uczenia')
 plt.show()
-plt.title('Ogólny pogląd wag przed funkcji uczenia')
 
 # Loading training and test data
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()

@@ -42,6 +42,21 @@ def create_combined_model():
 # Creating a Model Instance
 model = create_combined_model()
 
+# Wyświetlanie macierzy wag przed treningiem
+
+for layer in model.layers:
+    if len(layer.get_weights()) > 0:
+        weights = layer.get_weights()[0]
+        print(f"Initial weights for layer {layer.name}:")
+        print(weights)
+        print()
+
+plt.plot(weights)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.show()
+plt.title('Ogólny pogląd wag przed funkcji uczenia')
+
 # Loading training and test data
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 
@@ -65,6 +80,21 @@ y_val = y_val.astype(int)
 
 # Model training with validation data
 history = model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=15)
+
+# Wyświetlanie macierzy wag po treningu
+for layer in model.layers:
+    if len(layer.get_weights()) > 0:
+        weights = layer.get_weights()[0]
+        print(f"Trained weights for layer {layer.name}:")
+        print(weights)
+        print()
+
+
+plt.plot(weights)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Ogólny pogląd wag po funkcji uczenia')
+plt.show()
 
 # Learning Process Charts
 plt.figure(figsize=(12, 4))
@@ -93,6 +123,8 @@ y_test = y_test.astype(int)
 # Assessment of model accuracy on test data
 test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
 print('Model accuracy:', test_acc)
+
+
 
 # Writing the model to a file
 model.save('src/model/model.h5')

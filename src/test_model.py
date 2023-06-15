@@ -4,6 +4,7 @@ import tensorflow as tf
 import numpy as np
 import os
 
+
 # Single pixel size
 PIXEL_SIZE = 10
 # Board size (pixels)
@@ -55,13 +56,37 @@ class DrawingApp:
         self.image = Image.new('RGB', (BOARD_SIZE, BOARD_SIZE), 'black')
         self.draw = ImageDraw.Draw(self.image)
 
+    # def draw_pixel(self, event):
+    #     x = event.x // PIXEL_SIZE
+    #     y = event.y // PIXEL_SIZE
+    #     self.draw.point((x, y), fill='white')
+    #     self.canvas.create_rectangle(x * PIXEL_SIZE, y * PIXEL_SIZE,
+    #                                  (x + 1) * PIXEL_SIZE, (y + 1) * PIXEL_SIZE,
+    #                                  fill='white')
+
     def draw_pixel(self, event):
         x = event.x // PIXEL_SIZE
         y = event.y // PIXEL_SIZE
+
         self.draw.point((x, y), fill='white')
         self.canvas.create_rectangle(x * PIXEL_SIZE, y * PIXEL_SIZE,
                                      (x + 1) * PIXEL_SIZE, (y + 1) * PIXEL_SIZE,
                                      fill='white')
+        # Odczytanie koloru piksela z oryginalnego obrazu
+        pixel_color = self.image.getpixel((x, y))
+
+        if pixel_color == (255, 255, 255):
+           # Rysowanie piksela o odcieniu szarości
+            self.draw.point((x, y), fill='gray')
+            radius =  event.x // PIXEL_SIZE //event.y # Promień okręgu
+            self.canvas.create_rectangle(
+                x * PIXEL_SIZE - radius,
+                y * PIXEL_SIZE - radius,
+                x * PIXEL_SIZE + radius,
+                y * PIXEL_SIZE + radius,
+                fill='gray'
+            )
+
         
     def clear_canvas(self):
         self.canvas.delete("all")
@@ -70,7 +95,7 @@ class DrawingApp:
         self.result_label.config(text="")
 
     def save_image(self):
-        file_path = "buffor"
+        file_path = "buffor.jpg"
         self.image.save(file_path, "JPEG")
         # Model test
         self.model = tf.keras.models.load_model("src/model/model.h5")
@@ -82,8 +107,9 @@ class DrawingApp:
         predicted_class = np.argmax(predictions)
         print("Score:", predicted_class)
         self.result_label.config(text="Anticipated number: " + str(predicted_class))
-        os.remove(file_path)
+       # os.remove(file_path)
 
+    
 
 root = tk.Tk()
 app = DrawingApp(root)
